@@ -21,7 +21,7 @@ myflip f x y = f y x
 {--
 Intermission:
 1. a) (a, b) -> a
-   b) String, not safe type
+   b) String, not same type
    c) k1 k3
 2. f (x, _, y) (x', _, y') = ((x, x'), (y, y'))
 --}
@@ -63,11 +63,11 @@ Intermission
 1. nothing special
 2. won't work
 3. b
-4. [a]
-5. [a] -> Bool
+4. Eq a => [a]
+5. Eq a => [a] -> Bool
 6. c
-7. Num a => a
-8. (Num a, Num b) => a -> b
+7. (Num a, Ord a) => a
+8. (Num a, Ord a, Num b) => a => a -> b
 --}
 avgGrade :: (Fractional a, Ord a) => a -> Char
 avgGrade x

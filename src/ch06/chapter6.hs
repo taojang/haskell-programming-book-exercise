@@ -38,9 +38,9 @@ instance (Eq a, Eq b) => Eq (EitherOr a b) where
 
 -- Chapter Ex
 -- 1. c
--- 2. a b
+-- 2. b
 -- 3. a
--- 4. b
+-- 4. c
 -- 5. a
 
 -- Type check
@@ -70,7 +70,7 @@ instance (Eq a, Eq b) => Eq (EitherOr a b) where
 -- 10. yes
 -- 11. no, more general
 
--- Type-Know-Do
+-- Type-Kwon-Do
 chk :: Eq b => (a -> b) -> a -> b -> Bool
 chk f x y = f x == y
 
