@@ -74,3 +74,19 @@ mayybee x f y = fromMaybe x (f <$> y)
 fromMaybe' :: a -> Maybe a -> a
 fromMaybe' x Nothing   = x
 fromMaybe' _ (Just x') = x'
+
+data BinaryTree a =
+  Leaf
+  | Node (BinaryTree a) a (BinaryTree a)
+  deriving (Eq, Ord, Show)
+
+unfold :: (a -> Maybe (a, b, a)) -> a -> BinaryTree b
+unfold f x = fromMaybe Leaf $
+  (\(x0, y, x1) -> Node (unfold f x0) y (unfold f x1)) <$> f x
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild x
+  | x < 1     = Leaf
+  | otherwise = let expand y = if y > x - 1 then Nothing else Just (y + 1, y, y + 1)
+                    leaf = unfold expand 1
+              in Node leaf 0 leaf
