@@ -40,7 +40,7 @@ instance Applicative (PhhhbbtttEither b) where
 
 instance Monad (PhhhbbtttEither b) where
   (Left' x)  >>= f = f x
-  (Right' x) >>= _ = (Right' x)
+  (Right' x) >>= _ = Right' x
 
 instance (Arbitrary a, Arbitrary b) => Arbitrary (PhhhbbtttEither b a) where
   arbitrary = do
