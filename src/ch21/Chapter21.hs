@@ -59,8 +59,12 @@ instance Applicative List where
   (Cons f fs)  <*> xs = (f <$> xs) <> (fs <*> xs)
 
 instance Foldable List where
-  foldr _ x Nil = x
-  foldr f x (Cons y ys) = foldr f (f y x) ys
+  foldr _ z Nil = z
+  foldr f z (Cons x xs) = f x (foldr f z xs) -- foldr f (f x z) xs
+
+-- instance Foldable List where
+--   foldMap f Nil = mempty
+--   foldMap f (Cons x xs) = f x <> foldMap f xs
 
 instance Traversable List where
   traverse _ Nil = pure Nil
