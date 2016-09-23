@@ -125,6 +125,7 @@ instance Applicative n => Applicative (S n) where
   pure x = S (pure x) x
   (S nf f) <*> (S nx x) = S (nf <*> nx) (f x)
 
+-- TODO: implement using foldr
 instance Foldable n => Foldable (S n) where
   foldMap f (S nx x) = foldMap f nx <> f x
 
@@ -142,7 +143,7 @@ instance (Eq (n a), Eq a) => EqProp (S n a) where
 
 checkSTraversable :: IO ()
 checkSTraversable = do
-  let trigger = undefined :: S Identity (Int, Int, [Int])
+  let trigger = undefined :: S List (Int, Int, [Int])
   quickBatch (traversable trigger)
 
 -------------------------------------------
