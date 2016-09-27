@@ -21,3 +21,5 @@ executable haskell-programming
                      , containers
                      , checkers
                      , hspec
+                     , mtl
+                     , random
