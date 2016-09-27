@@ -1,6 +1,7 @@
+{-# LANGUAGE TupleSections #-}
 module Chapter23 where
 
-data State s a = State { runState :: s -> (a, s) }
+newtype State s a = State { runState :: s -> (a, s) }
 
 -- TODO: add monad instance
 
@@ -16,6 +17,5 @@ exec (State sa) = snd . sa
 eval :: State s a -> s -> a
 eval (State sa) = fst . sa
 
--- should be possible to make point free, if there's functor instance
 modify :: (s -> s) -> State s ()
-modify f = State $ (\s -> ((), s)) . f
+modify = State . ((\s -> ((),s)) .)
