@@ -23,3 +23,4 @@ executable haskell-programming
                      , hspec
                      , mtl
                      , random
+                     , trifecta
