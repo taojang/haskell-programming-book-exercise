@@ -24,3 +24,6 @@ executable haskell-programming
                      , mtl
                      , random
                      , trifecta
+                     , transformers
+                     , scotty
+                     , text

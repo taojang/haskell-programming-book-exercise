@@ -1,4 +1,11 @@
+{-# LANGUAGE TupleSections #-}
 module Stackup where
+
+import Control.Monad.Trans.Except
+import Control.Monad.Trans.Maybe
+import Control.Monad.Trans.Class
+import Control.Monad.IO.Class
+import Control.Monad
 
 newtype EitherT e m a = EitherT { runEitherT :: m (Either e a) }
 
@@ -69,3 +76,19 @@ instance (Monad m) => Monad (StateT s m) where
   (StateT sma) >>= f = StateT $ \s -> do
     (a, s') <- sma s
     runStateT (f a) s'
+
+embedded :: MaybeT (ExceptT String (ReaderT () IO)) Int
+embedded = (MaybeT . ExceptT . ReaderT) (const $ return (Right (Just 1)))
+
+instance MonadTrans (EitherT e) where
+  lift = EitherT . liftM Right
+
+instance MonadTrans (StateT s) where
+  lift = StateT . (\m s -> (,s) <$> m)
+
+
+instance (MonadIO m) => MonadIO (ReaderT r m) where
+  liftIO = ReaderT . const . liftIO
+
+instance (MonadIO m) => MonadIO (StateT s m) where
+  liftIO ma = StateT $ \s -> (,s) <$> liftIO ma
