@@ -19,6 +19,7 @@ executable haskell-programming
   build-depends:       QuickCheck
                      , base >= 4.7 && < 5
                      , containers
+                     , criterion
                      , checkers
                      , hspec
                      , mtl
@@ -27,3 +28,10 @@ executable haskell-programming
                      , transformers
                      , scotty
                      , text
+
+executable vigenere
+  hs-source-dirs:      src/ch29
+  main-is:             Vigenere.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , containers
