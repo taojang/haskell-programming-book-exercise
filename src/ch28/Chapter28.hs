@@ -5,8 +5,7 @@ import Criterion.Main
 newtype DList a = DL { unDL :: [a] -> [a] }
 
 empty :: DList a
-empty = DL $ ([] ++)
-empty = DL $ const []
+empty = DL id
 {-# INLINE empty #-}
 
 singleton :: a -> DList a
@@ -36,8 +35,8 @@ schlemiel i = go i []
   where go 0 xs = xs
         go n xs = go (n-1) ([n] ++ xs)
 
-constructDlist :: Int -> [Int]
-constructDlist i = toList $ go i empty
+constructDlist :: Int -> DList Int
+constructDlist i = go i empty
   where go 0 xs = xs
         go n xs = go (n-1) (singleton n `append` xs)
 
