@@ -27,7 +27,8 @@ snoc xs x = DL $ foldr (:) [x] . unDL xs
 {-# INLINE snoc #-}
 
 append :: DList a -> DList a -> DList a
-append xs ys = DL $ unDL xs . unDL ys
+--append xs ys = DL $ unDL xs . unDL ys
+append (DL xs) (DL ys) = DL $ (++) <$> xs <*> ys
 {-# INLINE append #-}
 
 schlemiel :: Int -> [Int]
@@ -42,6 +43,6 @@ constructDlist i = go i empty
 
 main :: IO ()
 main = defaultMain
-  [ bench "concat lsit" $ whnf schlemiel 123456
+  [ bench "concat list" $ whnf schlemiel 123456
   , bench "concat dlist" $ whnf constructDlist 123456
   ]
