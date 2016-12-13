@@ -1,6 +1,9 @@
-with import <nixpkgs> {}; {
-  hsEnv = stdenv.mkDerivation {
-    name = "prog-in-hs";
-    buildInputs = [ cabal-install haskellPackages.ghc-mod haskellPackages.stylish-haskell ];
-  };
+{ghc}:
+with (import <nixpkgs> {});
+
+haskell.lib.buildStackProject {
+  inherit ghc;
+  name = "hs-prog";
+  buildInputs = [ zlib binutils ];
+  LANG = "en_US.UTF-8";
 }

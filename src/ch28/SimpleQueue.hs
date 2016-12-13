@@ -1,4 +1,4 @@
-module SimpleQueue where
+module Main where
 
 import Criterion.Main
 
@@ -26,21 +26,20 @@ npop (NQ []) = Nothing
 npop (NQ xs) = let (xs', [x]) = splitAt (length xs - 1)  xs in Just (x, NQ xs')
 
 
-benchQ :: Int -> [Int]
+benchQ :: Int -> Queue Int
 benchQ i = let go n q
                  | n == 0    = q
                  | odd n     = go (n - 1) (push n q)
                  | otherwise = go (n - 1) (maybe (Queue [] []) snd (pop q))
-               myQ = go i (Queue [1..i] [])
-           in enqueue myQ ++ dequeue myQ
+           in go i (Queue [1..i] [])
 
 
-benchNQ :: Int -> [Int]
+benchNQ :: Int -> NaiveQ Int
 benchNQ i = let go n q
                   | n == 0    = q
                   | odd n     = go (n - 1) (npush n q)
                   | otherwise = go (n - 1) (maybe (NQ []) snd (npop q))
-            in unNQ $ go i (NQ [1..i])
+            in go i (NQ [1..i])
 
 main :: IO ()
 main = defaultMain
