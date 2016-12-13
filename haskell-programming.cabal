@@ -35,3 +35,11 @@ executable vigenere
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
                      , containers
+
+executable dlist
+  hs-source-dirs:      src/ch28
+  main-is:             Chapter28.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , criterion
+                                          

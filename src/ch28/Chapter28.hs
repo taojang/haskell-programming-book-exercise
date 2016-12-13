@@ -1,4 +1,4 @@
-module Chapter28 where
+module Main where
 
 import Criterion.Main
 
@@ -9,26 +9,27 @@ empty = DL id
 {-# INLINE empty #-}
 
 singleton :: a -> DList a
-singleton = DL . (++) . (: [])
+singleton x = DL (x:)
 {-# INLINE singleton #-}
 
 toList :: DList a -> [a]
-toList = ($ []) . unDL
+toList (DL f) = f []
 {-# INLINE toList #-}
 
 infixr `cons`
 cons :: a -> DList a -> DList a
-cons x xs = DL ((x:) . unDL xs)
+cons x (DL f) = DL ((x:) . f)
 {-# INLINE cons #-}
 
 infixl `snoc`
 snoc :: DList a -> a -> DList a
-snoc xs x = DL $ foldr (:) [x] . unDL xs
+--snoc (DL f) x = DL $ foldr (:) [x] . f
+snoc (DL f) x = DL $ (f [x] ++)
 {-# INLINE snoc #-}
 
 append :: DList a -> DList a -> DList a
---append xs ys = DL $ unDL xs . unDL ys
-append (DL xs) (DL ys) = DL $ (++) <$> xs <*> ys
+append (DL f) (DL g) = DL $ f . g
+--append (DL xs) (DL ys) = DL $ (++) <$> xs <*> ys
 {-# INLINE append #-}
 
 schlemiel :: Int -> [Int]
@@ -36,13 +37,13 @@ schlemiel i = go i []
   where go 0 xs = xs
         go n xs = go (n-1) ([n] ++ xs)
 
-constructDlist :: Int -> DList Int
-constructDlist i = go i empty
+constructDlist :: Int -> [Int]
+constructDlist i = toList $ go i empty
   where go 0 xs = xs
         go n xs = go (n-1) (singleton n `append` xs)
 
 main :: IO ()
 main = defaultMain
-  [ bench "concat list" $ whnf schlemiel 123456
-  , bench "concat dlist" $ whnf constructDlist 123456
+  [ bench "concat dlist" $ whnf constructDlist 123456
+  , bench "concat list" $ whnf schlemiel 123456
   ]
