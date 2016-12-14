@@ -43,6 +43,6 @@ benchNQ i = let go n q
 
 main :: IO ()
 main = defaultMain
-  [ bench "simple queue" $ whnf benchQ 123456
-  , bench "naive queue" $ whnf benchNQ 123456
+  [ bench "simple queue" $ whnf benchQ 1234567
+  , bench "naive queue" $ whnf benchNQ 1234567
   ]
